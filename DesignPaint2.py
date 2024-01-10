@@ -287,7 +287,7 @@ class ApplicationDessin:
         couleur = colorchooser.askcolor()[1]  # Opens a color picker dialog
         if couleur:
             self.canvas_arriere_plan = couleur
-            self.canvas.configure(bg=self.canvas_arriere_plan)
+            self.canvas.configure(bg=self.canvas_arriere_plan) 
 
 if __name__ == "__main__":
     root = tk.Tk()
