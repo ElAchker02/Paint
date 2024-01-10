@@ -273,6 +273,8 @@ class ApplicationDessin:
             self.canvas_arriere_plan = couleur
             self.canvas.configure(bg=self.canvas_arriere_plan) 
 
+    #jkdsjflkdsjflk
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = ApplicationDessin(root)
