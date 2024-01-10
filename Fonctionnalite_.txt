@@ -1,0 +1,71 @@
+ Important Module Used Here:
+
+ Tkinter
+ Pillow
+ Time
+
+
+➡️ 1. Tools Present in Shapes and Lines Section:
+
+1-principale
+
+ Straight Line 
+ Rectangle
+ Circle
+ Bent Line
+ Traingle
+
+2-secondaire
+
+ Rounded Rectangle
+ Parallelogram
+ Pentagon
+ Hexagon
+ Up and Down Arrow
+ Left and Right Arrow
+ Right Angled Traingle
+
+➡️ 2.Tools Present in Tools Collection:
+
+ Pencil
+ Eraser
+ Text
+ Color Pen
+
+ -Width Controller:
+ Outline Width Controller
+ Eraser Width Controller
+
+ Selector
+
+➡️ 3. Color Box:
+
+ 14 Standard Color Provided(palette de couleur )
+ Colorchooser Also Provided
+
+ Permanent Fill and Outline Color Change Button
+ Shape Specific Fill Color Selector
+ Shape and Line Specific Outline Color Selector
+ 
+
+➡️ 4. Other Important Facility Provided Here:
+
+ New File Open
+ Open an Existing File
+ Save the Current File
+ Clear
+ Background Color Change
+ 
+ Zoom Controller
+ Cut
+ Copy
+ Paste
+ Undo
+ Screenshot
+ Shape and Line Movement With Index No.
+ Shortcut Key Provided
+
+
+➡️ 4. Index Controller:
+
+Store the Index of Every Step of Painting

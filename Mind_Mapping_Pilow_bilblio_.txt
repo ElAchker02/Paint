@@ -1,0 +1,40 @@
+      Pillow (Python Imaging Library Fork)
+           |
+           |--- Image Processing
+           |       |
+           |       |--- Open, Save, and Display Images
+           |       |--- Basic Image Operations
+           |       |--- Image Enhancement
+           |       |--- Image Filtering
+           |       |--- Image Transformations
+           |       |--- Color Manipulation
+           |
+           |--- Image Drawing
+           |       |
+           |       |--- Drawing Shapes (Lines, Circles, Rectangles)
+           |       |--- Adding Text to Images
+           |       |--- Custom Drawing with ImageDraw Module
+           |
+           |--- Image Manipulation
+           |       |
+           |       |--- Image Cropping and Resizing
+           |       |--- Image Rotation and Flipping
+           |       |--- Image Blending and Compositing
+           |
+           |--- Image Analysis
+           |       |
+           |       |--- Basic Image Information (Size, Mode)
+           |       |--- Histograms and Pixel Statistics
+           |
+           |--- File Formats
+           |       |
+           |       |--- Support for Various Image Formats (JPEG, PNG, GIF, etc.)
+           |       |--- Reading and Writing Metadata
+           |
+           |--- Pillow Utilities
+                   |
+                   |--- Image Sequence Handling
+                   |--- Image Comparison
+                   |--- Color Quantization
+                   |--- Image Chops (Channel Operations)
+                   |--- ImageMath (Element-wise Math Operations)

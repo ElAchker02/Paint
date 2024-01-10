@@ -1,0 +1,49 @@
+                         [Start]
+                           |
+                       +---|-------------------------+
+                       |                           |
+               [Import Tkinter]            [Import Pillow]
+                       |                           |
+                       +---|-------------------------+
+                           |
+                  +--------|---------+
+                  |                  |
+         [Create Main Frame]     [Install Pillow]
+                  |                  |
+                  +--------|---------+
+                           |
+                +------------------+
+                |                  |
+       [Create Canvas]     [Create Toolboxes]
+                |                  |
+    +-----------|-----------+    +--|------------------+
+    |                       |    |                  |
+[Bind Mouse Events]    [Create Tools]      [Create Width Controller]
+    |                       |    |                  |
+    +-----------------------+    +------------------+
+                           |
+               +-----------|-------------------+
+               |                           |
+       [Create Index Controller]    [Create Color Box]
+               |                           |
+               +-----------|-------------------+
+                           |
+            +--------------|---------------+
+            |              |               |
+ [Implement Save Index] [Implement Color Change]
+            |              |               |
+            +--------------|---------------+
+                           |
+       +-------------------|-----------------------+
+       |                   |                       |
+ [Implement Tool Actions] [Implement Width Controller Actions]
+       |                   |                       |
+       +-------------------|-----------------------+
+                           |
+            +--------------|---------------+
+            |              |               |
+ [Implement Canvas Actions] [Implement Other Facilities]
+            |              |               |
+            +--------------|---------------+
+                           |
+                       [End]
