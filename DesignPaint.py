@@ -14,12 +14,10 @@ class ApplicationDessin:
         self.fenetre.geometry('1200x600')
         self.fenetre.minsize(1200, 600)
         self.fenetre.iconbitmap("icone/icon.ico")
-        # self.gomme = False
-        # self.fenetre.tk_setPalette(background='#F0F0F0', foreground='#000000')
-
 
         self.epesseure = 1
         self.couleur = "black"
+
         self.menu = tk.Menu(fenetre)
         fenetre.config(menu=self.menu)
 
@@ -29,7 +27,7 @@ class ApplicationDessin:
         self.menu.add_command(label="Arrière-plan", command=self.changer_couleur_arrier_plan)
         self.menu.add_command(label="Quitter", command=fenetre.destroy)
 
-        # Cree le canva
+        # Cree le canvas
         self.canvas_arriere_plan = "white"
         self.canvas = tk.Canvas(fenetre, bg=self.canvas_arriere_plan, width=800, height=600)
         self.canvas.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
@@ -142,14 +140,6 @@ class ApplicationDessin:
         self.width_scale = ttk.Scale(outils_forme1_1, from_=1.0, to=30.0, variable=self.pen_width, orient=tk.HORIZONTAL)
         self.width_scale.pack(pady=10, padx=65, anchor=tk.W)
 
-        # # Initialiser la valeur du width pour la gomme
-        # self.eraser_width = tk.DoubleVar(value=1.0)
-        # # Créer le widget Scale pour ajuster le width de la gomme
-        # self.eraser_width_scale_label = ttk.Label(outils_forme1_1, text="Width Eraser:")
-        # self.eraser_width_scale_label.pack(pady=5, padx= 80, anchor=tk.W)
-        # self.eraser_width_scale = ttk.Scale(outils_forme1_1, from_=1.0, to=30.0, variable=self.eraser_width, orient=tk.HORIZONTAL)
-        # self.eraser_width_scale.pack(pady=10, padx=65, anchor=tk.W)
-
         # Lier les fonctions de mise à jour du width à l'événement de mouvement du curseur
         self.width_scale.bind("<B1-Motion>", self.update_width)
         # self.eraser_width_scale.bind("<B1-Motion>", self.update_eraser_width)
@@ -163,11 +153,11 @@ class ApplicationDessin:
         etiquette.grid(row=0, column=0)
 
         # Créer le cadre extérieur
-        cadre_exterieur = tk.Frame(self.outils_forme3,width=250,  relief="sunken")
-        cadre_exterieur.grid(row=1, column=0)
+        cadre_interieur = tk.Frame(self.outils_forme3,width=250,  bg="black",relief="sunken")
+        cadre_interieur.grid(row=1, column=0)
 
         # Créer le cadre de couleur
-        cadre_couleur = tk.Frame(cadre_exterieur, bg='#eee', width=300, borderwidth=1, relief='sunken', padx=10, pady=10)
+        cadre_couleur = tk.Frame(cadre_interieur, bg='#eee', width=300, borderwidth=1, relief='sunken', padx=10, pady=10)
         cadre_couleur.grid(row=0, column=0, padx=10, pady=10, sticky='ew')
 
         # Définir les couleurs et les boutons correspondants
@@ -176,21 +166,16 @@ class ApplicationDessin:
 
         # Calculer le nombre de colonnes et de lignes
         num_colonnes = 8
-        num_lignes = len(couleurs) // num_colonnes + (1 if len(couleurs) % num_colonnes != 0 else 0)
+        # num_lignes = len(couleurs) // num_colonnes + (1 if len(couleurs) % num_colonnes != 0 else 0)
 
-        boutons = []
+        # boutons = []
         for i, couleur in enumerate(couleurs):
             bouton = tk.Button(cadre_couleur, bg=couleur, width=2, height=1,relief=tk.RAISED, command=lambda c=couleur: changerCouleurStylo(self,c))
             ligne = i // num_colonnes
             colonne = i % num_colonnes
             bouton.grid(row=ligne, column=colonne, padx=2, pady=2)
 
-        # Ajouter un bouton pour ouvrir le sélecteur de couleur
-        # bouton_choix_couleur = tk.Button(cadre_exterieur, text="Choisir une couleur", command=self.ouvrir_choix_couleur)
-        # bouton_choix_couleur.grid(row=1, column=0, pady=10)
-
-
-        bouton_choix_couleur = tk.Button(cadre_exterieur,relief=tk.RAISED, image=icone_choisir_couleur, command=self.ouvrir_choix_couleur)
+        bouton_choix_couleur = tk.Button(cadre_interieur,relief=tk.RAISED, image=icone_choisir_couleur, command=self.ouvrir_choix_couleur)
         bouton_choix_couleur.image = icone_choisir_couleur
         bouton_choix_couleur.grid(row=1, column=0, pady=5, padx=10)
 
@@ -235,7 +220,6 @@ class ApplicationDessin:
             self.canvas.coords(self.forme_actuelle, *self.points_courbe)
         elif self.outil_actuel == "rectangle_arrondi":
             self.canvas.coords(self.forme_actuelle, self.start_x, self.start_y, cur_x, cur_y)
-
         elif self.outil_actuel == "gomme":
             self.points_courbe.extend([cur_x, cur_y])
             self.canvas.coords(self.forme_actuelle, *self.points_courbe)
