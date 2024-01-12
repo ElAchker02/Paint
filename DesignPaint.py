@@ -25,7 +25,7 @@ class ApplicationDessin:
         self.menu.add_command(label="Nouveau", command=self.nouveau_dessin)
         self.menu.add_command(label="Enregistrer", command=self.enregistrer_dessin)
         self.menu.add_command(label="Arrière-plan", command=self.changer_couleur_arrier_plan)
-        self.menu.add_command(label="Quitter", command=fenetre.destroy)
+        self.menu.add_command(label="Quitter", command=self.quitter_application)
 
         # Cree le canvas
         self.canvas_arriere_plan = "white"
@@ -59,9 +59,22 @@ class ApplicationDessin:
         self.canvas.bind("<B1-Motion>", self.on_glissement_souris)
         self.canvas.bind("<ButtonRelease-1>", self.on_relachement_bouton)
         self.canvas.bind("<MouseWheel>", self.on_scroll_souris)
+        self.fenetre.protocol("WM_DELETE_WINDOW", self.quitter_application)
 
-        # Fonction pour enregistrer le dessin
-        print("Enregistrer dessin")
+
+    def quitter_application(self):
+            
+            reponse = tk.messagebox.askyesnocancel("Quitter", "Voulez-vous enregistrer les modifications avant de quitter ?")
+
+            if reponse is None:
+                # l'utilisateur clicker non
+                return
+            elif reponse:
+                self.enregistrer_dessin()
+                self.fenetre.destroy()
+
+        
+
 
     def on_scroll_souris(self, evenement):
         # Check if the Ctrl key is pressed
