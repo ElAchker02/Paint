@@ -73,11 +73,7 @@ class ApplicationDessin:
                 self.fenetre.destroy()
             else:
                 return
-                
-
-        
-
-
+            
     def on_scroll_souris(self, evenement):
         # Check if the Ctrl key is pressed
         if evenement.state & 0x4:
@@ -129,44 +125,44 @@ class ApplicationDessin:
         icone_choisir_couleur =self.redimensionner_icone("icone/rgb.png")
 
         # Ajoutez les boutons avec les icônes dans outils_forme2
-        bouton_cercle = tk.Button(outils_forme2, image=icone_cercle,relief=tk.RAISED, command=lambda: self.definir_outil("cercle"))
+        bouton_cercle = tk.Button(outils_forme2,width=25,height=25, image=icone_cercle,relief=tk.RAISED, command=lambda: self.definir_outil("cercle"))
         bouton_cercle.image = icone_cercle
         bouton_cercle.grid(row=0, column=0, pady=5, padx=10)
 
-        bouton_rectangle = tk.Button(outils_forme2, image=icone_rectangle,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle"))
+        bouton_rectangle = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle"))
         bouton_rectangle.image = icone_rectangle
         bouton_rectangle.grid(row=0, column=2, pady=5, padx=10)
 
-        bouton_triangle = tk.Button(outils_forme2, image=icone_triangle,relief=tk.RAISED, command=lambda: self.definir_outil("triangle"))
+        bouton_triangle = tk.Button(outils_forme2, width=25,height=25,image=icone_triangle,relief=tk.RAISED, command=lambda: self.definir_outil("triangle"))
         bouton_triangle.image = icone_triangle
         bouton_triangle.grid(row=0, column=4, pady=5, padx=10)
 
-        bouton_rectangle_arrondie = tk.Button(outils_forme2, image=icone_rectangle_arrondie,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle_arrondi"))
+        bouton_rectangle_arrondie = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle_arrondie,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle_arrondi"))
         bouton_rectangle_arrondie.image = icone_rectangle_arrondie
         bouton_rectangle_arrondie.grid(row=0, column=6, pady=5, padx=10)
 
-        bouton_parallelogramme = tk.Button(outils_forme2, image=icone_parallelogramme,relief=tk.RAISED, command=lambda: self.definir_outil("parallelogramme"))
+        bouton_parallelogramme = tk.Button(outils_forme2,width=25,height=25, image=icone_parallelogramme,relief=tk.RAISED, command=lambda: self.definir_outil("parallelogramme"))
         bouton_parallelogramme.image = icone_parallelogramme
         bouton_parallelogramme.grid(row=0, column=8, pady=5, padx=10)
 
         # Ajoutez les boutons avec les icônes dans outils_forme1
-        bouton_ligne_pliee = tk.Button(outils_forme1, image=icone_ligne_pliee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_pliee"))
+        bouton_ligne_pliee = tk.Button(outils_forme1,width=25,height=25, image=icone_ligne_pliee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_pliee"))
         bouton_ligne_pliee.image = icone_ligne_pliee
         bouton_ligne_pliee.grid(row=0, column=0, pady=5, padx=10)
 
-        bouton_ligne_courbee = tk.Button(outils_forme1, image=icone_ligne_courbee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_courbee"))
+        bouton_ligne_courbee = tk.Button(outils_forme1, width=25,height=25,image=icone_ligne_courbee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_courbee"))
         bouton_ligne_courbee.image = icone_ligne_courbee
         bouton_ligne_courbee.grid(row=0, column=2, pady=5, padx=10)
 
-        bouton_clear= tk.Button(outils_forme1, image=icone_clear,relief=tk.RAISED, command=self.clear_canvas)
+        bouton_clear= tk.Button(outils_forme1, width=25,height=25,image=icone_clear,relief=tk.RAISED, command=self.clear_canvas)
         bouton_clear.image = icone_clear
         bouton_clear.grid(row=0, column=4, pady=5, padx=10)
 
-        bouton_gomme = tk.Button(outils_forme1, image=icone_gomme,relief=tk.RAISED, command=lambda: self.definir_outil("gomme"))
+        bouton_gomme = tk.Button(outils_forme1,width=25,height=25, image=icone_gomme,relief=tk.RAISED, command=lambda: self.definir_outil("gomme"))
         bouton_gomme.image = icone_gomme
         bouton_gomme.grid(row=0, column=6, pady=5, padx=10)
 
-        bouton_text = tk.Button(outils_forme1, image=icone_text,relief=tk.RAISED,)
+        bouton_text = tk.Button(outils_forme1, width=25,height=25,image=icone_text,relief=tk.RAISED,)
         bouton_text.image = icone_text
         bouton_text.grid(row=0, column=8, pady=5, padx=10)
 
@@ -175,9 +171,9 @@ class ApplicationDessin:
         self.pen_width = tk.DoubleVar(value=1.0)
         # Créer le widget Scale pour ajuster le width du pen
         self.width_scale_label = ttk.Label(outils_forme1_1, text="Width Pen:")
-        self.width_scale_label.pack(pady=5, padx=80, anchor=tk.W)
+        self.width_scale_label.pack(pady=5, padx=90, anchor=tk.W)
         self.width_scale = ttk.Scale(outils_forme1_1, from_=1.0, to=30.0, variable=self.pen_width, orient=tk.HORIZONTAL)
-        self.width_scale.pack(pady=10, padx=65, anchor=tk.W)
+        self.width_scale.pack(pady=10, padx=75, anchor=tk.W)
 
         # Lier les fonctions de mise à jour du width à l'événement de mouvement du curseur
         self.width_scale.bind("<B1-Motion>", self.update_width)
