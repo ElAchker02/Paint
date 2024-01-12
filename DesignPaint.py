@@ -66,12 +66,14 @@ class ApplicationDessin:
             
             reponse = tk.messagebox.askyesnocancel("Quitter", "Voulez-vous enregistrer les modifications avant de quitter ?")
 
-            if reponse is None:
-                # l'utilisateur clicker non
-                return
-            elif reponse:
+            if reponse is True:
                 self.enregistrer_dessin()
                 self.fenetre.destroy()
+            if reponse is False:
+                self.fenetre.destroy()
+            else:
+                return
+                
 
         
 
