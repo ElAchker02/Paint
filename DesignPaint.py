@@ -32,6 +32,17 @@ class ApplicationDessin:
         self.canvas = tk.Canvas(fenetre, bg=self.canvas_arriere_plan, width=800, height=600)
         self.canvas.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
+        # Create vertical and horizontal scrollbars
+        v_scrollbar = tk.Scrollbar(self.canvas, orient="vertical", command=self.canvas.yview)
+        h_scrollbar = tk.Scrollbar(self.canvas, orient="horizontal", command=self.canvas.xview)
+
+         # Configure the canvas to use the scrollbars
+        self.canvas.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
+
+        # Pack the scrollbars to the right and bottom of the canvas
+        v_scrollbar.pack(side="right", fill="y")
+        h_scrollbar.pack(side="bottom", fill="x")
+
         # Create a PIL Image to draw on
         self.image = Image.new("RGB", (800, 600), "white")
         self.draw = ImageDraw.Draw(self.image)
@@ -43,18 +54,31 @@ class ApplicationDessin:
         self.start_x = None
         self.start_y = None
 
-        # les évenement apliquer sur la souris
+        # les évenements apliquer sur la souris
         self.canvas.bind("<ButtonPress-1>", self.on_appui_bouton)
         self.canvas.bind("<B1-Motion>", self.on_glissement_souris)
         self.canvas.bind("<ButtonRelease-1>", self.on_relachement_bouton)
-
-    
-    def nouveau_dessin(self):
-        # Fonction pour créer un nouveau dessin
-        print("Nouveau dessin")
+        self.canvas.bind("<MouseWheel>", self.on_scroll_souris)
 
         # Fonction pour enregistrer le dessin
         print("Enregistrer dessin")
+
+    def on_scroll_souris(self, evenement):
+        # Check if the Ctrl key is pressed
+        if evenement.state & 0x4:
+            # Zoom in or out based on the direction of the mouse wheel
+            if evenement.delta > 0:
+                self.zoom_in()
+            else:
+                self.zoom_out()
+
+    def zoom_in(self):
+        # Increase the scale factor for zooming in
+        self.canvas.scale("all", 0, 0, 1.1, 1.1)
+
+    def zoom_out(self):
+        # Decrease the scale factor for zooming out
+        self.canvas.scale("all", 0, 0, 0.9, 0.9)
 
     def redimensionner_icone(self, chemin_icone, largeur=20, hauteur=20):
         icone_originale = Image.open(chemin_icone)
@@ -182,9 +206,9 @@ class ApplicationDessin:
     def definir_outil(self, outil):
         self.outil_actuel = outil
 
-    def on_appui_bouton(self, event):
-        self.start_x = self.canvas.canvasx(event.x)
-        self.start_y = self.canvas.canvasy(event.y)
+    def on_appui_bouton(self, evenement):
+        self.start_x = self.canvas.canvasx(evenement.x)
+        self.start_y = self.canvas.canvasy(evenement.y)
 
         if self.outil_actuel == "cercle":
             self.forme_actuelle = self.canvas.create_oval(self.start_x, self.start_y, self.start_x, self.start_y ,outline=self.couleur,width=self.epesseure )
@@ -205,9 +229,9 @@ class ApplicationDessin:
         elif self.outil_actuel == "parallelogramme":  
             self.forme_actuelle = self.canvas.create_polygon(self.start_x, self.start_y, self.start_x, self.start_y, fill="", outline=self.couleur, width=self.epesseure)
 
-    def on_glissement_souris(self, event):
-        cur_x = self.canvas.canvasx(event.x)
-        cur_y = self.canvas.canvasy(event.y)
+    def on_glissement_souris(self, evenement):
+        cur_x = self.canvas.canvasx(evenement.x)
+        cur_y = self.canvas.canvasy(evenement.y)
 
         if self.outil_actuel in ["cercle", "rectangle"]:
             self.canvas.coords(self.forme_actuelle, self.start_x, self.start_y, cur_x, cur_y)
@@ -226,41 +250,40 @@ class ApplicationDessin:
         elif self.outil_actuel == "parallelogramme": 
             self.canvas.coords(self.forme_actuelle, self.start_x, self.start_y, cur_x, self.start_y, cur_x + (cur_x - self.start_x), cur_y, self.start_x + (cur_x - self.start_x), cur_y)
 
-    def on_relachement_bouton(self, event):
+    def on_relachement_bouton(self, evenement):
         pass
 
-    # def enregistrer_dessin(self):
-
-    #         x = self.fenetre.winfo_rootx() + self.canvas.winfo_x()
-    #         y = self.fenetre.winfo_rooty() + self.canvas.winfo_y()
-    #         x1 = self.canvas.winfo_width()
-    #         y1 = self.canvas.winfo_height()
-
-    #         self.path = tk.filedialog.asksaveasfilename(initialdir='C:/Users', title='save',
-    #         defaultextension=".png")
-
-    #         ImageGrab.grab().crop((x,y,x1,y1)).save(self.path)
+    def nouveau_dessin(self):
+        file_path = filedialog.askopenfilename(filetypes=[("PNG files", "*.png"), ("All files", "*.*")])
+        if file_path:
+            self.clear_canvas()
+            self.image = Image.open(file_path)
+            self.draw = ImageDraw.Draw(self.image)
+            self.tk_image = ImageTk.PhotoImage(self.image)
+            self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_image)
+            self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
 
     def enregistrer_dessin(self):
-        file_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png"), ("All files", "*.*")])
-        if file_path:
-            self.image.save(file_path, format="PNG")
+            x = self.fenetre.winfo_rootx() + self.canvas.winfo_x()
+            y = self.fenetre.winfo_rooty() + self.canvas.winfo_y()
+            x1 = self.canvas.winfo_width()
+            y1 = self.canvas.winfo_height()
+
+            self.path = filedialog.asksaveasfilename(initialdir='C:/Users', title='Save', defaultextension=".png")
+            captured_image = ImageGrab.grab().crop((x, y, x + x1, y + y1))
+            resized_image = captured_image.resize((1200, 800), Image.LANCZOS)
+            resized_image.save(self.path, format="PNG")
+            self.tk_image = ImageTk.PhotoImage(resized_image)
+            self.canvas.create_image(0, 0, anchor="nw", image=self.tk_image)
 
     def clear_canvas(self):
         self.canvas.delete("all")
 
-    def update_width(self, event):
+    def update_width(self, evenement):
             # Fonction appelée lors du déplacement du curseur du width du pen
             new_width = int(self.width_scale.get())
             self.width_scale_label.config(text="Width : "+str(new_width))
             self.epesseure = new_width
-
-
-    # def update_eraser_width(self, event):
-    #         # Fonction appelée lors du déplacement du curseur du width de la gomme
-    #         new_width = int(self.eraser_width_scale.get())
-    #         print(f"Nouveau width de la gomme : {new_width}")
-    #         self.eraser_width_scale_label.config(text="Width Eraser : "+str(new_width))
 
     def ouvrir_choix_couleur(self):
         couleur_choisie = colorchooser.askcolor()[1]  # Obtenir le code couleur hexadécimal
@@ -273,7 +296,7 @@ class ApplicationDessin:
             self.canvas_arriere_plan = couleur
             self.canvas.configure(bg=self.canvas_arriere_plan) 
 
-    #!dskjfkdjf!lkj
+
 
 if __name__ == "__main__":
     root = tk.Tk()
