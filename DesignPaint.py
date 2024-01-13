@@ -61,7 +61,6 @@ class ApplicationDessin:
         self.canvas.bind("<MouseWheel>", self.on_scroll_souris)
         self.fenetre.protocol("WM_DELETE_WINDOW", self.quitter_application)
 
-
     def quitter_application(self):
             reponse = tk.messagebox.askyesnocancel("Quitter", "Voulez-vous enregistrer les modifications avant de quitter ?")
 
@@ -122,6 +121,8 @@ class ApplicationDessin:
         icone_gomme =self.redimensionner_icone("icone/eraser.png")
         icone_text =self.redimensionner_icone("icone/text.png")
         icone_choisir_couleur =self.redimensionner_icone("icone/rgb.png")
+        icone_fleshs =self.redimensionner_icone("icone/four-arrows.png")
+        
 
         # Ajoutez les boutons avec les icônes dans outils_forme2
         bouton_cercle = tk.Button(outils_forme2,width=25,height=25, image=icone_cercle,relief=tk.RAISED, command=lambda: self.definir_outil("cercle"),cursor="tcross")
@@ -143,6 +144,10 @@ class ApplicationDessin:
         bouton_parallelogramme = tk.Button(outils_forme2,width=25,height=25, image=icone_parallelogramme,relief=tk.RAISED, command=lambda: self.definir_outil("parallelogramme"),cursor="tcross")
         bouton_parallelogramme.image = icone_parallelogramme
         bouton_parallelogramme.grid(row=0, column=8, pady=5, padx=10)
+
+        flesh_haut = tk.Button(outils_forme2, width=25,height=25,image=icone_fleshs,relief=tk.RAISED, command=lambda: self.definir_outil("fleshs"),cursor="tcross")
+        flesh_haut.image = icone_fleshs
+        flesh_haut.grid(row=1, column=4, pady=5, padx=10)
 
         # Ajoutez les boutons avec les icônes dans outils_forme1
         bouton_ligne_pliee = tk.Button(outils_forme1,width=25,height=25, image=icone_ligne_pliee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_pliee"),cursor="pencil")
@@ -247,6 +252,9 @@ class ApplicationDessin:
         elif self.outil_actuel == "parallelogramme":  
             self.forme_actuelle = self.canvas.create_polygon(self.start_x, self.start_y, self.start_x, self.start_y, fill="", outline=self.couleur, width=self.epesseure)
             self.canvas.config(cursor="tcross")
+        elif self.outil_actuel == "fleshs":
+            self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, arrow=tk.LAST, width=3)
+            self.canvas.config(cursor="tcross")
 
     def on_glissement_souris(self, evenement):
         cur_x = self.canvas.canvasx(evenement.x)
@@ -268,6 +276,8 @@ class ApplicationDessin:
             self.canvas.coords(self.forme_actuelle, *self.points_courbe)
         elif self.outil_actuel == "parallelogramme": 
             self.canvas.coords(self.forme_actuelle, self.start_x, self.start_y, cur_x, self.start_y, cur_x + (cur_x - self.start_x), cur_y, self.start_x + (cur_x - self.start_x), cur_y)
+        elif self.outil_actuel == "fleshs":
+            self.canvas.coords(self.forme_actuelle, self.start_x, self.start_y, cur_x, cur_y)
 
     def on_relachement_bouton(self, evenement):
         pass
@@ -280,12 +290,11 @@ class ApplicationDessin:
             self.draw = ImageDraw.Draw(self.image)
             self.tk_image = ImageTk.PhotoImage(self.image)
             self.canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_image)
-            self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
 
     def enregistrer_dessin(self):
             self.v_scrollbar.pack_forget()
             self.h_scrollbar.pack_forget()
-            
+
             x = self.fenetre.winfo_rootx() + self.canvas.winfo_x()
             y = self.fenetre.winfo_rooty() + self.canvas.winfo_y()
             x1 = self.canvas.winfo_width()
