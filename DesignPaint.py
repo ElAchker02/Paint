@@ -33,15 +33,15 @@ class ApplicationDessin:
         self.canvas.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
         # Create vertical and horizontal scrollbars
-        v_scrollbar = tk.Scrollbar(self.canvas, orient="vertical", command=self.canvas.yview)
-        h_scrollbar = tk.Scrollbar(self.canvas, orient="horizontal", command=self.canvas.xview)
+        self.v_scrollbar = tk.Scrollbar(self.canvas, orient="vertical", command=self.canvas.yview)
+        self.h_scrollbar = tk.Scrollbar(self.canvas, orient="horizontal", command=self.canvas.xview)
 
-         # Configure the canvas to use the scrollbars
-        self.canvas.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
+        # Configure the canvas to use the scrollbars
+        self.canvas.configure(yscrollcommand=self.v_scrollbar.set, xscrollcommand=self.h_scrollbar.set)
 
         # Pack the scrollbars to the right and bottom of the canvas
-        v_scrollbar.pack(side="right", fill="y")
-        h_scrollbar.pack(side="bottom", fill="x")
+        self.v_scrollbar.pack(side="right", fill="y")
+        self.h_scrollbar.pack(side="bottom", fill="x")
 
         # Create a PIL Image to draw on
         self.image = Image.new("RGB", (800, 600), "white")
@@ -63,7 +63,6 @@ class ApplicationDessin:
 
 
     def quitter_application(self):
-            
             reponse = tk.messagebox.askyesnocancel("Quitter", "Voulez-vous enregistrer les modifications avant de quitter ?")
 
             if reponse is True:
@@ -125,32 +124,32 @@ class ApplicationDessin:
         icone_choisir_couleur =self.redimensionner_icone("icone/rgb.png")
 
         # Ajoutez les boutons avec les icônes dans outils_forme2
-        bouton_cercle = tk.Button(outils_forme2,width=25,height=25, image=icone_cercle,relief=tk.RAISED, command=lambda: self.definir_outil("cercle"))
+        bouton_cercle = tk.Button(outils_forme2,width=25,height=25, image=icone_cercle,relief=tk.RAISED, command=lambda: self.definir_outil("cercle"),cursor="tcross")
         bouton_cercle.image = icone_cercle
         bouton_cercle.grid(row=0, column=0, pady=5, padx=10)
 
-        bouton_rectangle = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle"))
+        bouton_rectangle = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle"),cursor="tcross")
         bouton_rectangle.image = icone_rectangle
         bouton_rectangle.grid(row=0, column=2, pady=5, padx=10)
 
-        bouton_triangle = tk.Button(outils_forme2, width=25,height=25,image=icone_triangle,relief=tk.RAISED, command=lambda: self.definir_outil("triangle"))
+        bouton_triangle = tk.Button(outils_forme2, width=25,height=25,image=icone_triangle,relief=tk.RAISED, command=lambda: self.definir_outil("triangle"),cursor="tcross")
         bouton_triangle.image = icone_triangle
         bouton_triangle.grid(row=0, column=4, pady=5, padx=10)
 
-        bouton_rectangle_arrondie = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle_arrondie,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle_arrondi"))
+        bouton_rectangle_arrondie = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle_arrondie,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle_arrondi"),cursor="tcross")
         bouton_rectangle_arrondie.image = icone_rectangle_arrondie
         bouton_rectangle_arrondie.grid(row=0, column=6, pady=5, padx=10)
 
-        bouton_parallelogramme = tk.Button(outils_forme2,width=25,height=25, image=icone_parallelogramme,relief=tk.RAISED, command=lambda: self.definir_outil("parallelogramme"))
+        bouton_parallelogramme = tk.Button(outils_forme2,width=25,height=25, image=icone_parallelogramme,relief=tk.RAISED, command=lambda: self.definir_outil("parallelogramme"),cursor="tcross")
         bouton_parallelogramme.image = icone_parallelogramme
         bouton_parallelogramme.grid(row=0, column=8, pady=5, padx=10)
 
         # Ajoutez les boutons avec les icônes dans outils_forme1
-        bouton_ligne_pliee = tk.Button(outils_forme1,width=25,height=25, image=icone_ligne_pliee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_pliee"))
+        bouton_ligne_pliee = tk.Button(outils_forme1,width=25,height=25, image=icone_ligne_pliee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_pliee"),cursor="pencil")
         bouton_ligne_pliee.image = icone_ligne_pliee
         bouton_ligne_pliee.grid(row=0, column=0, pady=5, padx=10)
 
-        bouton_ligne_courbee = tk.Button(outils_forme1, width=25,height=25,image=icone_ligne_courbee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_courbee"))
+        bouton_ligne_courbee = tk.Button(outils_forme1, width=25,height=25,image=icone_ligne_courbee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_courbee"),cursor="pencil")
         bouton_ligne_courbee.image = icone_ligne_courbee
         bouton_ligne_courbee.grid(row=0, column=2, pady=5, padx=10)
 
@@ -158,10 +157,11 @@ class ApplicationDessin:
         bouton_clear.image = icone_clear
         bouton_clear.grid(row=0, column=4, pady=5, padx=10)
 
-        bouton_gomme = tk.Button(outils_forme1,width=25,height=25, image=icone_gomme,relief=tk.RAISED, command=lambda: self.definir_outil("gomme"))
+        bouton_gomme = tk.Button(outils_forme1,width=25,height=25, image=icone_gomme,relief=tk.RAISED, command=lambda: self.definir_outil("gomme"),cursor="circle")
         bouton_gomme.image = icone_gomme
         bouton_gomme.grid(row=0, column=6, pady=5, padx=10)
 
+        # xterm
         bouton_text = tk.Button(outils_forme1, width=25,height=25,image=icone_text,relief=tk.RAISED,)
         bouton_text.image = icone_text
         bouton_text.grid(row=0, column=8, pady=5, padx=10)
@@ -223,22 +223,30 @@ class ApplicationDessin:
 
         if self.outil_actuel == "cercle":
             self.forme_actuelle = self.canvas.create_oval(self.start_x, self.start_y, self.start_x, self.start_y ,outline=self.couleur,width=self.epesseure )
+            self.canvas.config(cursor="tcross")
         elif self.outil_actuel == "rectangle":
             self.forme_actuelle = self.canvas.create_rectangle(self.start_x, self.start_y, self.start_x, self.start_y ,outline=self.couleur,width=self.epesseure)
+            self.canvas.config(cursor="tcross")
         elif self.outil_actuel == "triangle":
             self.forme_actuelle = self.canvas.create_polygon(self.start_x, self.start_y, self.start_x, self.start_y,fill="" ,outline=self.couleur,width=self.epesseure)
+            self.canvas.config(cursor="tcross")
         elif self.outil_actuel == "ligne_pliee":
             self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, smooth=True,width=self.epesseure)
+            self.canvas.config(cursor="pencil")
         elif self.outil_actuel == "ligne_courbee":
             self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, smooth=True,width=self.epesseure)
             self.points_courbe = [self.start_x, self.start_y]  # Liste pour stocker les points de contrôle pour la courbe
+            self.canvas.config(cursor="pencil")
         elif self.outil_actuel == "rectangle_arrondi":
             self.forme_actuelle = self.canvas.create_rectangle(self.start_x, self.start_y, self.start_x, self.start_y, outline=self.couleur,width=self.epesseure)
+            self.canvas.config(cursor="tcross")
         elif self.outil_actuel == "gomme":
             self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill="white", smooth=True,width=self.epesseure)
             self.points_courbe = [self.start_x, self.start_y]  
+            self.canvas.config(cursor="circle")
         elif self.outil_actuel == "parallelogramme":  
             self.forme_actuelle = self.canvas.create_polygon(self.start_x, self.start_y, self.start_x, self.start_y, fill="", outline=self.couleur, width=self.epesseure)
+            self.canvas.config(cursor="tcross")
 
     def on_glissement_souris(self, evenement):
         cur_x = self.canvas.canvasx(evenement.x)
@@ -275,6 +283,9 @@ class ApplicationDessin:
             self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
 
     def enregistrer_dessin(self):
+            self.v_scrollbar.pack_forget()
+            self.h_scrollbar.pack_forget()
+            
             x = self.fenetre.winfo_rootx() + self.canvas.winfo_x()
             y = self.fenetre.winfo_rooty() + self.canvas.winfo_y()
             x1 = self.canvas.winfo_width()
@@ -284,8 +295,9 @@ class ApplicationDessin:
             captured_image = ImageGrab.grab().crop((x, y, x + x1, y + y1))
             resized_image = captured_image.resize((1200, 800), Image.LANCZOS)
             resized_image.save(self.path, format="PNG")
-            self.tk_image = ImageTk.PhotoImage(resized_image)
-            self.canvas.create_image(0, 0, anchor="nw", image=self.tk_image)
+            
+            self.v_scrollbar.pack(side="right", fill="y")
+            self.h_scrollbar.pack(side="bottom", fill="x")
 
     def clear_canvas(self):
         self.canvas.delete("all")
