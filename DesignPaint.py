@@ -130,6 +130,7 @@ class ApplicationDessin:
         icone_text =self.redimensionner_icone("icone/text.png")
         icone_choisir_couleur =self.redimensionner_icone("icone/rgb.png")
         icone_fleshs =self.redimensionner_icone("icone/four-arrows.png")
+        icone_ligne_discontinue =self.redimensionner_icone("icone/curved-arrow-with-broken-line.png")
         
 
         # Ajoutez les boutons avec les icônes dans outils_forme2
@@ -157,9 +158,9 @@ class ApplicationDessin:
         bouton_parallelogramme.image = icone_parallelogramme
         bouton_parallelogramme.grid(row=1, column=8, pady=5, padx=10)
 
-        flesh_haut = tk.Button(outils_forme2, width=25,height=25,image=icone_fleshs,relief=tk.RAISED, command=lambda: self.definir_outil("fleshs"),cursor="tcross")
-        flesh_haut.image = icone_fleshs
-        flesh_haut.grid(row=2, column=4, pady=5, padx=10)
+        fleshs = tk.Button(outils_forme2, width=25,height=25,image=icone_fleshs,relief=tk.RAISED, command=lambda: self.definir_outil("fleshs"),cursor="tcross")
+        fleshs.image = icone_fleshs
+        fleshs.grid(row=2, column=4, pady=5, padx=10)
 
         # Ajoutez les boutons avec les icônes dans outils_forme1
         lblOutils = tk.Label(outils_forme1, text="Outils",font=("Arial",10,"bold"))
@@ -174,9 +175,9 @@ class ApplicationDessin:
         bouton_ligne_courbee.image = icone_ligne_courbee
         bouton_ligne_courbee.grid(row=1, column=2, pady=5, padx=10)
 
-        bouton_clear= tk.Button(outils_forme1, width=25,height=25,image=icone_clear,relief=tk.RAISED, command=self.clear_canvas)
-        bouton_clear.image = icone_clear
-        bouton_clear.grid(row=1, column=4, pady=5, padx=10)
+        ligne_discontinue = tk.Button(outils_forme1, width=25,height=25,image=icone_ligne_discontinue,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_discontinue"),cursor="tcross")
+        ligne_discontinue.image = icone_ligne_discontinue
+        ligne_discontinue.grid(row=1, column=4, pady=5, padx=10)
 
         bouton_gomme = tk.Button(outils_forme1,width=25,height=25, image=icone_gomme,relief=tk.RAISED, command=lambda: self.definir_outil("gomme"),cursor="circle")
         bouton_gomme.image = icone_gomme
@@ -185,6 +186,10 @@ class ApplicationDessin:
         bouton_text = tk.Button(outils_forme1, width=25,height=25,image=icone_text,relief=tk.RAISED,command=lambda: self.definir_outil("text"),cursor="xterm")
         bouton_text.image = icone_text
         bouton_text.grid(row=1, column=8, pady=5, padx=10)
+
+        bouton_clear= tk.Button(outils_forme1, width=25,height=25,image=icone_clear,relief=tk.RAISED, command=self.clear_canvas)
+        bouton_clear.image = icone_clear
+        bouton_clear.grid(row=2, column=4, pady=5, padx=10)
 
 
         # Initialiser la valeur du width pour le pen
@@ -284,6 +289,9 @@ class ApplicationDessin:
             else:
             # Sinon, créer un nouveau texte sur le canevas
                 self.ajouter_texte()    
+        elif self.outil_actuel=="ligne_discontinue":
+            self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, smooth=True,width=self.epesseure,dash=(10,1))
+            self.points_courbe = [self.start_x, self.start_y]
 
     def on_glissement_souris(self, evenement):
         cur_x = self.canvas.canvasx(evenement.x)
@@ -307,6 +315,9 @@ class ApplicationDessin:
             self.canvas.coords(self.forme_actuelle, self.start_x, self.start_y, cur_x, self.start_y, cur_x + (cur_x - self.start_x), cur_y, self.start_x + (cur_x - self.start_x), cur_y)
         elif self.outil_actuel == "fleshs":
             self.canvas.coords(self.forme_actuelle, self.start_x, self.start_y, cur_x, cur_y)
+        elif self.outil_actuel == "ligne_discontinue":
+            self.points_courbe.extend([cur_x, cur_y])
+            self.canvas.coords(self.forme_actuelle, *self.points_courbe)
 
     def on_relachement_bouton(self, evenement):
         pass
