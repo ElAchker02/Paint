@@ -66,7 +66,7 @@ class ApplicationDessin:
         self.texte_a_afficher="" ## pour enregistrer le text taper 
         self.font_styles = [] ## pour entregistrer les styles de text 
         self.text_color = "black" ## text couleur par default 
-        self.text_size = 12 ## text taille par default 
+        self.text_size = 50 ## text taille par default 
 
 
     def quitter_application(self):
@@ -103,7 +103,7 @@ class ApplicationDessin:
         return ImageTk.PhotoImage(icone_redimensionnee)
 
     def configurer_sidebar(self):
-        sidebar = tk.Frame(self.fenetre, width=250, relief="raised",bg="#62C5FE")
+        sidebar = tk.Frame(self.fenetre, width=250, relief="raised",bg="#738BD7")
         sidebar.pack(side=tk.LEFT, fill=tk.BOTH)
 
         outils_forme1 = tk.Frame(sidebar,height=100, borderwidth=2, width=250,  relief="raised", bg="#eee")
@@ -133,59 +133,67 @@ class ApplicationDessin:
         
 
         # Ajoutez les boutons avec les icônes dans outils_forme2
+        lblFormes = tk.Label(outils_forme2, text="Formes",font=("Arial",10,"bold"))
+        lblFormes.pack(pady=5, padx=90, anchor=tk.W)
+        lblFormes.grid(row=0, column=4, pady=5, padx=10)
+
         bouton_cercle = tk.Button(outils_forme2,width=25,height=25, image=icone_cercle,relief=tk.RAISED, command=lambda: self.definir_outil("cercle"),cursor="tcross")
         bouton_cercle.image = icone_cercle
-        bouton_cercle.grid(row=0, column=0, pady=5, padx=10)
+        bouton_cercle.grid(row=1, column=0, pady=5, padx=10)
 
         bouton_rectangle = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle"),cursor="tcross")
         bouton_rectangle.image = icone_rectangle
-        bouton_rectangle.grid(row=0, column=2, pady=5, padx=10)
+        bouton_rectangle.grid(row=1, column=2, pady=5, padx=10)
 
         bouton_triangle = tk.Button(outils_forme2, width=25,height=25,image=icone_triangle,relief=tk.RAISED, command=lambda: self.definir_outil("triangle"),cursor="tcross")
         bouton_triangle.image = icone_triangle
-        bouton_triangle.grid(row=0, column=4, pady=5, padx=10)
+        bouton_triangle.grid(row=1, column=4, pady=5, padx=10)
 
         bouton_rectangle_arrondie = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle_arrondie,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle_arrondi"),cursor="tcross")
         bouton_rectangle_arrondie.image = icone_rectangle_arrondie
-        bouton_rectangle_arrondie.grid(row=0, column=6, pady=5, padx=10)
+        bouton_rectangle_arrondie.grid(row=1, column=6, pady=5, padx=10)
 
         bouton_parallelogramme = tk.Button(outils_forme2,width=25,height=25, image=icone_parallelogramme,relief=tk.RAISED, command=lambda: self.definir_outil("parallelogramme"),cursor="tcross")
         bouton_parallelogramme.image = icone_parallelogramme
-        bouton_parallelogramme.grid(row=0, column=8, pady=5, padx=10)
+        bouton_parallelogramme.grid(row=1, column=8, pady=5, padx=10)
 
         flesh_haut = tk.Button(outils_forme2, width=25,height=25,image=icone_fleshs,relief=tk.RAISED, command=lambda: self.definir_outil("fleshs"),cursor="tcross")
         flesh_haut.image = icone_fleshs
-        flesh_haut.grid(row=1, column=4, pady=5, padx=10)
+        flesh_haut.grid(row=2, column=4, pady=5, padx=10)
 
         # Ajoutez les boutons avec les icônes dans outils_forme1
+        lblOutils = tk.Label(outils_forme1, text="Outils",font=("Arial",10,"bold"))
+        lblOutils.pack(pady=5, padx=90, anchor=tk.W)
+        lblOutils.grid(row=0, column=4, pady=5, padx=10)
+
         bouton_ligne_pliee = tk.Button(outils_forme1,width=25,height=25, image=icone_ligne_pliee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_pliee"),cursor="pencil")
         bouton_ligne_pliee.image = icone_ligne_pliee
-        bouton_ligne_pliee.grid(row=0, column=0, pady=5, padx=10)
+        bouton_ligne_pliee.grid(row=1, column=0, pady=5, padx=10)
 
         bouton_ligne_courbee = tk.Button(outils_forme1, width=25,height=25,image=icone_ligne_courbee,relief=tk.RAISED, command=lambda: self.definir_outil("ligne_courbee"),cursor="pencil")
         bouton_ligne_courbee.image = icone_ligne_courbee
-        bouton_ligne_courbee.grid(row=0, column=2, pady=5, padx=10)
+        bouton_ligne_courbee.grid(row=1, column=2, pady=5, padx=10)
 
         bouton_clear= tk.Button(outils_forme1, width=25,height=25,image=icone_clear,relief=tk.RAISED, command=self.clear_canvas)
         bouton_clear.image = icone_clear
-        bouton_clear.grid(row=0, column=4, pady=5, padx=10)
+        bouton_clear.grid(row=1, column=4, pady=5, padx=10)
 
         bouton_gomme = tk.Button(outils_forme1,width=25,height=25, image=icone_gomme,relief=tk.RAISED, command=lambda: self.definir_outil("gomme"),cursor="circle")
         bouton_gomme.image = icone_gomme
-        bouton_gomme.grid(row=0, column=6, pady=5, padx=10)
+        bouton_gomme.grid(row=1, column=6, pady=5, padx=10)
 
         bouton_text = tk.Button(outils_forme1, width=25,height=25,image=icone_text,relief=tk.RAISED,command=lambda: self.definir_outil("text"),cursor="xterm")
         bouton_text.image = icone_text
-        bouton_text.grid(row=0, column=8, pady=5, padx=10)
+        bouton_text.grid(row=1, column=8, pady=5, padx=10)
 
 
         # Initialiser la valeur du width pour le pen
         self.pen_width = tk.DoubleVar(value=1.0)
         # Créer le widget Scale pour ajuster le width du pen
-        self.width_scale_label = ttk.Label(outils_forme1_1, text="Width Pen:")
-        self.width_scale_label.pack(pady=5, padx=90, anchor=tk.W)
+        self.width_scale_label = ttk.Label(outils_forme1_1, text="Epaisseur :",font=("Arial",10,"bold"))
+        self.width_scale_label.pack(pady=5, padx=100, anchor=tk.W)
         self.width_scale = ttk.Scale(outils_forme1_1, from_=1.0, to=30.0, variable=self.pen_width, orient=tk.HORIZONTAL)
-        self.width_scale.pack(pady=10, padx=75, anchor=tk.W)
+        self.width_scale.pack(pady=10, padx=95, anchor=tk.W)
 
         # Lier les fonctions de mise à jour du width à l'événement de mouvement du curseur
         self.width_scale.bind("<B1-Motion>", self.update_width)
@@ -196,11 +204,11 @@ class ApplicationDessin:
         self.outils_forme3.pack(side=tk.TOP, fill=tk.BOTH, pady=10, padx=20)
 
         # Créer d'autres éléments dans tbframe (par exemple, des étiquettes, des boutons)...
-        etiquette = tk.Label(self.outils_forme3, text="Couleurs")
-        etiquette.grid(row=0, column=0)
+        etiquette = tk.Label(self.outils_forme3, text="Couleurs",font=("Arial",10,"bold"))
+        etiquette.grid(row=0, column=0,padx=100)
 
         # Créer le cadre extérieur
-        cadre_interieur = tk.Frame(self.outils_forme3,width=250,  bg="black",relief="sunken")
+        cadre_interieur = tk.Frame(self.outils_forme3,width=250,  bg="#eee",relief="sunken")
         cadre_interieur.grid(row=1, column=0)
 
         # Créer le cadre de couleur
@@ -260,7 +268,7 @@ class ApplicationDessin:
             self.forme_actuelle = self.canvas.create_polygon(self.start_x, self.start_y, self.start_x, self.start_y, fill="", outline=self.couleur, width=self.epesseure)
             self.canvas.config(cursor="tcross")
         elif self.outil_actuel == "fleshs":
-            self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, arrow=tk.LAST, width=self.epesseure)
+            self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, arrow=tk.LAST, width=3)
             self.canvas.config(cursor="tcross")
         elif self.outil_actuel == "text" : 
             self.canvas.config(cursor="xterm")
@@ -335,7 +343,7 @@ class ApplicationDessin:
     def update_width(self, evenement):
             # Fonction appelée lors du déplacement du curseur du width du pen
             new_width = int(self.width_scale.get())
-            self.width_scale_label.config(text="Width : "+str(new_width))
+            self.width_scale_label.config(text="Epaisseur : "+str(new_width))
             self.epesseure = new_width
 
     def ouvrir_choix_couleur(self):
@@ -352,35 +360,42 @@ class ApplicationDessin:
     def ajouter_texte(self):
         fenetre = tk.Toplevel()
         fenetre.title("Fenêtre Personnalisée")
-        fenetre.geometry("350x300")  # Ajustez la taille de la fenêtre selon vos besoins
-        fenetre.configure(bg="white")  # Couleur de fond blanche
-        label_texte = tk.Label(fenetre, text="Texte :")
+        fenetre.geometry("450x350")  # Ajustez la taille de la fenêtre selon vos besoins
+        fenetre.configure(bg="#eee")  # Couleur de fond blanche
+        fenetre.minsize(450, 350)
+        fenetre.iconbitmap("icone/icon.ico")
+        label_texte = tk.Label(fenetre, text="Texte :",font=("Arial",25,"bold"))
         label_texte.grid(row=0, column=0, padx=5, pady=5)
+        icon_rgb = self.redimensionner_icone("icone/rgb.png")
+       
 
-        entry_texte = tk.Entry(fenetre)
+        entry_texte = tk.Entry(fenetre,width=20,font=("Arial",20,"bold"))
         entry_texte.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
 
         bold_var = tk.BooleanVar()
         italic_var = tk.BooleanVar()
         underline_var = tk.BooleanVar()
 
-        checkbutton_bold = tk.Checkbutton(fenetre, text="Gras", variable=bold_var, height=2, width=4, font=("Arial", 10))
-        checkbutton_italic = tk.Checkbutton(fenetre, text="Italique", variable=italic_var , height=2, width=6, font=("Arial", 10))
-        checkbutton_underline = tk.Checkbutton(fenetre, text="Souligné", variable=underline_var , height=2, width=6, font=("Arial", 10))
+        checkbutton_bold = tk.Checkbutton(fenetre, text="Gras", variable=bold_var, height=2, width=4, font=("Arial", 15,"bold"))
+        checkbutton_italic = tk.Checkbutton(fenetre, text="Italique", variable=italic_var , height=2, width=6, font=("Arial", 15,"bold"))
+        checkbutton_underline = tk.Checkbutton(fenetre, text="Souligné", variable=underline_var , height=2, width=6, font=("Arial", 15,"bold"))
 
         checkbutton_bold.grid(row=1, column=0, padx=20, pady=15)
         checkbutton_italic.grid(row=1, column=1, padx=20, pady=15)
         checkbutton_underline.grid(row=1, column=2, padx=20, pady=15)
 
-        button_color = tk.Button(fenetre, text="Couleur",command=self.choisir_couleur,bg="lightblue", height=2, width=8, font=("Arial", 12))
-        button_color.grid(row=2, column=0, padx=10, pady=10)
+        # button_color = tk.Button(fenetre, text="Couleur",command=self.choisir_couleur,bg="#738BD7", height=2, width=8, font=("Arial", 12))
+        
+        button_color = tk.Button(fenetre,relief=tk.RAISED, image=icon_rgb, command=self.choisir_couleur)
+        button_color.image = icon_rgb
+        button_color.grid(row=2, column=1, padx=5, pady=5)
 
-        taille_controller = tk.Scale(fenetre, from_=1, to=100, orient=tk.HORIZONTAL, label="Taille",command=lambda val: self.choisir_taille(int(val)))
+        taille_controller = tk.Scale(fenetre, from_=12,to=100,bg="#738BD7",fg="white", orient=tk.HORIZONTAL,command=lambda val: self.choisir_taille(int(val)))
         taille_controller.set(self.text_size)  # Définir la taille par défaut
-        taille_controller.grid(row=2, column=1, padx=5, pady=5, columnspan=2)
+        taille_controller.grid(row=3, column=1, padx=5, pady=5)
 
-        button_ok = tk.Button(fenetre, text="Accepter", command=lambda: self.ok_pressed(entry_texte, bold_var.get(), italic_var.get(), underline_var.get()), height=2, width=15, font=("Arial", 12))
-        button_ok.grid(row=3, column=0, columnspan=3, pady=10)
+        button_ok = tk.Button(fenetre,text="Accepter", fg="white",width=10 ,font=("Arial",15,"bold"), bg="#738BD7" ,command=lambda: self.ok_pressed(entry_texte, bold_var.get(), italic_var.get(), underline_var.get()), height=2)
+        button_ok.grid(row=4, column=1, pady=10)
         
     def choisir_couleur(self):
         couleur = colorchooser.askcolor()[1]
