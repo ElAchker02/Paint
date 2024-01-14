@@ -130,7 +130,7 @@ class ApplicationDessin:
         icone_text =self.redimensionner_icone("icone/text.png")
         icone_choisir_couleur =self.redimensionner_icone("icone/rgb.png")
         icone_fleshs =self.redimensionner_icone("icone/four-arrows.png")
-        icone_ligne_discontinue =self.redimensionner_icone("icone/curved-arrow-with-broken-line.png")
+        icone_ligne_discontinue =self.redimensionner_icone("icone/dashed-line.png")
         
 
         # Ajoutez les boutons avec les icônes dans outils_forme2
