@@ -283,7 +283,7 @@ class ApplicationDessin:
 
             else:
             # Sinon, créer un nouveau texte sur le canevas
-                self.ajouter_texte()
+                self.ajouter_texte()    
 
     def on_glissement_souris(self, evenement):
         cur_x = self.canvas.canvasx(evenement.x)
