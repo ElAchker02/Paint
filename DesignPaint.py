@@ -61,6 +61,14 @@ class ApplicationDessin:
         self.canvas.bind("<MouseWheel>", self.on_scroll_souris)
         self.fenetre.protocol("WM_DELETE_WINDOW", self.quitter_application)
 
+        # varibele pour l'emplacement de text.
+        self.text_entry = None
+        self.texte_a_afficher="" ## pour enregistrer le text taper 
+        self.font_styles = [] ## pour entregistrer les styles de text 
+        self.text_color = "black" ## text couleur par default 
+        self.text_size = 12 ## text taille par default 
+
+
     def quitter_application(self):
             reponse = tk.messagebox.askyesnocancel("Quitter", "Voulez-vous enregistrer les modifications avant de quitter ?")
 
@@ -166,8 +174,7 @@ class ApplicationDessin:
         bouton_gomme.image = icone_gomme
         bouton_gomme.grid(row=0, column=6, pady=5, padx=10)
 
-        # xterm
-        bouton_text = tk.Button(outils_forme1, width=25,height=25,image=icone_text,relief=tk.RAISED,)
+        bouton_text = tk.Button(outils_forme1, width=25,height=25,image=icone_text,relief=tk.RAISED,command=lambda: self.definir_outil("text"),cursor="xterm")
         bouton_text.image = icone_text
         bouton_text.grid(row=0, column=8, pady=5, padx=10)
 
@@ -253,8 +260,22 @@ class ApplicationDessin:
             self.forme_actuelle = self.canvas.create_polygon(self.start_x, self.start_y, self.start_x, self.start_y, fill="", outline=self.couleur, width=self.epesseure)
             self.canvas.config(cursor="tcross")
         elif self.outil_actuel == "fleshs":
-            self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, arrow=tk.LAST, width=3)
+            self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, arrow=tk.LAST, width=self.epesseure)
             self.canvas.config(cursor="tcross")
+        elif self.outil_actuel == "text" : 
+            self.canvas.config(cursor="xterm")
+            if self.canvas.type(tk.CURRENT) == "text":
+                # Afficher une boîte de dialogue avec le texte stocké
+                current_text = self.canvas.itemcget(tk.CURRENT, "text")
+                # Demandez à l'utilisateur de modifier le texte
+                new_text = tk.simpledialog.askstring("Modifier le texte", "Nouveau texte :", initialvalue=current_text)
+                if new_text:
+                    # Mettez à jour le texte sur le canevas
+                    self.canvas.itemconfig(tk.CURRENT, text=new_text)
+
+            else:
+            # Sinon, créer un nouveau texte sur le canevas
+                self.ajouter_texte()
 
     def on_glissement_souris(self, evenement):
         cur_x = self.canvas.canvasx(evenement.x)
@@ -328,7 +349,72 @@ class ApplicationDessin:
             self.canvas_arriere_plan = couleur
             self.canvas.configure(bg=self.canvas_arriere_plan) 
 
+    def ajouter_texte(self):
+        fenetre = tk.Toplevel()
+        fenetre.title("Fenêtre Personnalisée")
+        fenetre.geometry("350x300")  # Ajustez la taille de la fenêtre selon vos besoins
+        fenetre.configure(bg="white")  # Couleur de fond blanche
+        label_texte = tk.Label(fenetre, text="Texte :")
+        label_texte.grid(row=0, column=0, padx=5, pady=5)
 
+        entry_texte = tk.Entry(fenetre)
+        entry_texte.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
+
+        bold_var = tk.BooleanVar()
+        italic_var = tk.BooleanVar()
+        underline_var = tk.BooleanVar()
+
+        checkbutton_bold = tk.Checkbutton(fenetre, text="Gras", variable=bold_var, height=2, width=4, font=("Arial", 10))
+        checkbutton_italic = tk.Checkbutton(fenetre, text="Italique", variable=italic_var , height=2, width=6, font=("Arial", 10))
+        checkbutton_underline = tk.Checkbutton(fenetre, text="Souligné", variable=underline_var , height=2, width=6, font=("Arial", 10))
+
+        checkbutton_bold.grid(row=1, column=0, padx=20, pady=15)
+        checkbutton_italic.grid(row=1, column=1, padx=20, pady=15)
+        checkbutton_underline.grid(row=1, column=2, padx=20, pady=15)
+
+        button_color = tk.Button(fenetre, text="Couleur",command=self.choisir_couleur,bg="lightblue", height=2, width=8, font=("Arial", 12))
+        button_color.grid(row=2, column=0, padx=10, pady=10)
+
+        taille_controller = tk.Scale(fenetre, from_=1, to=100, orient=tk.HORIZONTAL, label="Taille",command=lambda val: self.choisir_taille(int(val)))
+        taille_controller.set(self.text_size)  # Définir la taille par défaut
+        taille_controller.grid(row=2, column=1, padx=5, pady=5, columnspan=2)
+
+        button_ok = tk.Button(fenetre, text="Accepter", command=lambda: self.ok_pressed(entry_texte, bold_var.get(), italic_var.get(), underline_var.get()), height=2, width=15, font=("Arial", 12))
+        button_ok.grid(row=3, column=0, columnspan=3, pady=10)
+        
+    def choisir_couleur(self):
+        couleur = colorchooser.askcolor()[1]
+        if couleur:
+            # Mise à jour de la couleur du texte
+            self.text_color = couleur
+        self.fenetre.wait_window(self.fenetre)
+
+    def choisir_taille(self, taille):
+        self.text_size = taille
+
+    def ok_pressed(self, entry_texte, bold, italic, underline):
+        texte_saisi = entry_texte.get()
+        if texte_saisi:
+            self.font_styles = []  ## Réinitialiser la liste des styles de police
+            if bold:
+                self.font_styles.append("bold")
+            if italic:
+                self.font_styles.append("italic")
+            if underline:
+                self.font_styles.append("underline")
+
+            # Utilisez une liste pour spécifier les styles de police
+            font_tuple = ("Arial", self.text_size, " ".join(self.font_styles))
+
+            # Utilisez self.font_styles pour définir le style de police
+            self.canvas.create_text(
+                self.start_x, self.start_y,
+                text=texte_saisi, fill=self.text_color,
+                font=font_tuple
+            )
+            
+            self.texte_a_afficher = texte_saisi
+            entry_texte.master.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()
