@@ -32,18 +32,17 @@ class ApplicationDessin:
         self.canvas = tk.Canvas(fenetre, bg=self.canvas_arriere_plan, width=800, height=600)
         self.canvas.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        # Create vertical and horizontal scrollbars
+        # Cree les scroll bar
         self.v_scrollbar = tk.Scrollbar(self.canvas, orient="vertical", command=self.canvas.yview)
         self.h_scrollbar = tk.Scrollbar(self.canvas, orient="horizontal", command=self.canvas.xview)
 
-        # Configure the canvas to use the scrollbars
+        # Configurer le canva pour utiliser les scroll bar
         self.canvas.configure(yscrollcommand=self.v_scrollbar.set, xscrollcommand=self.h_scrollbar.set)
 
-        # Pack the scrollbars to the right and bottom of the canvas
         self.v_scrollbar.pack(side="right", fill="y")
         self.h_scrollbar.pack(side="bottom", fill="x")
 
-        # Create a PIL Image to draw on
+        # Creer image PIL pour dessiner
         self.image = Image.new("RGB", (800, 600), "white")
         self.draw = ImageDraw.Draw(self.image)
 
@@ -71,7 +70,6 @@ class ApplicationDessin:
 
     def quitter_application(self):
             reponse = tk.messagebox.askyesnocancel("Quitter", "Voulez-vous enregistrer les modifications avant de quitter ?")
-
             if reponse is True:
                 self.enregistrer_dessin()
                 self.fenetre.destroy()
@@ -81,20 +79,16 @@ class ApplicationDessin:
                 return
             
     def on_scroll_souris(self, evenement):
-        # Check if the Ctrl key is pressed
         if evenement.state & 0x4:
-            # Zoom in or out based on the direction of the mouse wheel
             if evenement.delta > 0:
                 self.zoom_in()
             else:
                 self.zoom_out()
 
     def zoom_in(self):
-        # Increase the scale factor for zooming in
         self.canvas.scale("all", 0, 0, 1.1, 1.1)
 
     def zoom_out(self):
-        # Decrease the scale factor for zooming out
         self.canvas.scale("all", 0, 0, 0.9, 0.9)
 
     def redimensionner_icone(self, chemin_icone, largeur=20, hauteur=20):
@@ -191,24 +185,22 @@ class ApplicationDessin:
         bouton_clear.image = icone_clear
         bouton_clear.grid(row=2, column=4, pady=5, padx=10)
 
-
-        # Initialiser la valeur du width pour le pen
+        # Initialiser la valeur du epaisseur pour le stylo
         self.pen_width = tk.DoubleVar(value=1.0)
-        # Créer le widget Scale pour ajuster le width du pen
+
+        # Créer le widget Scale pour ajuster l'epaisseur pour le stylo
         self.width_scale_label = ttk.Label(outils_forme1_1, text="Epaisseur :",font=("Arial",10,"bold"))
         self.width_scale_label.pack(pady=5, padx=100, anchor=tk.W)
         self.width_scale = ttk.Scale(outils_forme1_1, from_=1.0, to=30.0, variable=self.pen_width, orient=tk.HORIZONTAL)
         self.width_scale.pack(pady=10, padx=95, anchor=tk.W)
 
         # Lier les fonctions de mise à jour du width à l'événement de mouvement du curseur
-        self.width_scale.bind("<B1-Motion>", self.update_width)
-        # self.eraser_width_scale.bind("<B1-Motion>", self.update_eraser_width)
+        self.width_scale.bind("<B1-Motion>", self.modifier_epaisseur)
 
-         # Créer le cadre palette de couleur
+        # Créer le cadre palette de couleur
         self.outils_forme3 = tk.Frame(sidebar, borderwidth=2, width=250,  relief="raised", bg="#eee")
         self.outils_forme3.pack(side=tk.TOP, fill=tk.BOTH, pady=10, padx=20)
 
-        # Créer d'autres éléments dans tbframe (par exemple, des étiquettes, des boutons)...
         etiquette = tk.Label(self.outils_forme3, text="Couleurs",font=("Arial",10,"bold"))
         etiquette.grid(row=0, column=0,padx=100)
 
@@ -226,9 +218,6 @@ class ApplicationDessin:
 
         # Calculer le nombre de colonnes et de lignes
         num_colonnes = 8
-        # num_lignes = len(couleurs) // num_colonnes + (1 if len(couleurs) % num_colonnes != 0 else 0)
-
-        # boutons = []
         for i, couleur in enumerate(couleurs):
             bouton = tk.Button(cadre_couleur, bg=couleur, width=2, height=1,relief=tk.RAISED, command=lambda c=couleur: changerCouleurStylo(self,c))
             ligne = i // num_colonnes
@@ -260,7 +249,7 @@ class ApplicationDessin:
             self.canvas.config(cursor="pencil")
         elif self.outil_actuel == "ligne_courbee":
             self.forme_actuelle = self.canvas.create_line(self.start_x, self.start_y, self.start_x, self.start_y, fill=self.couleur, smooth=True,width=self.epesseure)
-            self.points_courbe = [self.start_x, self.start_y]  # Liste pour stocker les points de contrôle pour la courbe
+            self.points_courbe = [self.start_x, self.start_y]
             self.canvas.config(cursor="pencil")
         elif self.outil_actuel == "rectangle_arrondi":
             self.forme_actuelle = self.canvas.create_rectangle(self.start_x, self.start_y, self.start_x, self.start_y, outline=self.couleur,width=self.epesseure)
@@ -351,8 +340,7 @@ class ApplicationDessin:
     def clear_canvas(self):
         self.canvas.delete("all")
 
-    def update_width(self, evenement):
-            # Fonction appelée lors du déplacement du curseur du width du pen
+    def modifier_epaisseur(self, evenement):
             new_width = int(self.width_scale.get())
             self.width_scale_label.config(text="Epaisseur : "+str(new_width))
             self.epesseure = new_width
@@ -363,7 +351,7 @@ class ApplicationDessin:
             changerCouleurStylo(self,couleur_choisie)
 
     def changer_couleur_arrier_plan(self):
-        couleur = colorchooser.askcolor()[1]  # Opens a color picker dialog
+        couleur = colorchooser.askcolor()[1]  # Obtenir le code couleur hexadécimal
         if couleur:
             self.canvas_arriere_plan = couleur
             self.canvas.configure(bg=self.canvas_arriere_plan) 
@@ -371,14 +359,13 @@ class ApplicationDessin:
     def ajouter_texte(self):
         fenetre = tk.Toplevel()
         fenetre.title("Fenêtre Personnalisée")
-        fenetre.geometry("450x350")  # Ajustez la taille de la fenêtre selon vos besoins
-        fenetre.configure(bg="#eee")  # Couleur de fond blanche
+        fenetre.geometry("450x350") 
+        fenetre.configure(bg="#eee")
         fenetre.minsize(450, 350)
         fenetre.iconbitmap("icone/icon.ico")
         label_texte = tk.Label(fenetre, text="Texte :",font=("Arial",25,"bold"))
         label_texte.grid(row=0, column=0, padx=5, pady=5)
         icon_rgb = self.redimensionner_icone("icone/rgb.png")
-       
 
         entry_texte = tk.Entry(fenetre,width=20,font=("Arial",20,"bold"))
         entry_texte.grid(row=0, column=1, padx=5, pady=5, columnspan=2)
@@ -394,8 +381,6 @@ class ApplicationDessin:
         checkbutton_bold.grid(row=1, column=0, padx=20, pady=15)
         checkbutton_italic.grid(row=1, column=1, padx=20, pady=15)
         checkbutton_underline.grid(row=1, column=2, padx=20, pady=15)
-
-        # button_color = tk.Button(fenetre, text="Couleur",command=self.choisir_couleur,bg="#738BD7", height=2, width=8, font=("Arial", 12))
         
         button_color = tk.Button(fenetre,relief=tk.RAISED, image=icon_rgb, command=self.choisir_couleur)
         button_color.image = icon_rgb
@@ -421,7 +406,7 @@ class ApplicationDessin:
     def ok_pressed(self, entry_texte, bold, italic, underline):
         texte_saisi = entry_texte.get()
         if texte_saisi:
-            self.font_styles = []  ## Réinitialiser la liste des styles de police
+            self.font_styles = []  # Réinitialiser la liste des styles de police
             if bold:
                 self.font_styles.append("bold")
             if italic:
