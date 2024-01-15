@@ -123,7 +123,7 @@ class ApplicationDessin:
         icone_triangle = self.redimensionner_icone("icone/triangle.png")
         icone_ligne_pliee = self.redimensionner_icone("icone/straightLine.png")
         icone_ligne_courbee = self.redimensionner_icone("icone/drawing.png")
-        icone_rectangle_arrondie = self.redimensionner_icone("icone/rounded-rectangle.png")
+        icone_carre = self.redimensionner_icone("icone/square.png")
         icone_parallelogramme = self.redimensionner_icone("icone/parallelogram.png")
         icone_clear =self.redimensionner_icone("icone/broom.png")
         icone_gomme =self.redimensionner_icone("icone/eraser.png")
@@ -150,8 +150,8 @@ class ApplicationDessin:
         bouton_triangle.image = icone_triangle
         bouton_triangle.grid(row=1, column=4, pady=5, padx=10)
 
-        bouton_rectangle_arrondie = tk.Button(outils_forme2, width=25,height=25,image=icone_rectangle_arrondie,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle_arrondi"),cursor="tcross")
-        bouton_rectangle_arrondie.image = icone_rectangle_arrondie
+        bouton_rectangle_arrondie = tk.Button(outils_forme2, width=25,height=25,image=icone_carre,relief=tk.RAISED, command=lambda: self.definir_outil("rectangle_arrondi"),cursor="tcross")
+        bouton_rectangle_arrondie.image = icone_carre
         bouton_rectangle_arrondie.grid(row=1, column=6, pady=5, padx=10)
 
         bouton_parallelogramme = tk.Button(outils_forme2,width=25,height=25, image=icone_parallelogramme,relief=tk.RAISED, command=lambda: self.definir_outil("parallelogramme"),cursor="tcross")
